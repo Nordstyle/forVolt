@@ -1,6 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import 'react-select/dist/react-select.css';
+import Root from './Root';
 
-render(<div>Place your application here</div>, document.getElementById('app-root'));
+render(
+  <Router>
+    <Root />
+  </Router>,
+  document.getElementById('app-root')
+);
