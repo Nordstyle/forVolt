@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, PageHeader } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
+import { getUsers } from './../api';
 import Grid from './../Grid';
 import Modal from './Modal';
 
@@ -20,10 +21,11 @@ export default class extends React.Component {
 
   componentDidMount() {
     this.getData();
+    document.title = "Customers Page";
   }
 
   getData() {
-    fetch('/api/customers').then(r => r.json())
+    getUsers()
       .then(customers => this.setState({ customers }))
   }
 
@@ -39,7 +41,7 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modalIsOpen} id={this.state.selectedId} close={this.modalClose} />
+        <Modal key={this.state.selectedId} isOpen={this.state.modalIsOpen} id={this.state.selectedId} close={this.modalClose} />
         <Grid>
           <PageHeader>Customer List&nbsp;
               <Button onClick={this.modalOpen} >Create</Button>

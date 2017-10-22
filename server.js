@@ -11,7 +11,7 @@ sequelize = new Sequelize('sqlite://' + path.join(__dirname, 'invoices.sqlite'),
   storage: path.join(__dirname, 'invoices.sqlite')
 });
 
-Customer = sequelize.define('customers', { 
+Customer = sequelize.define('customers', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -28,7 +28,7 @@ Customer = sequelize.define('customers', {
   }
 });
 
-Product = sequelize.define('products', { 
+Product = sequelize.define('products', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -76,67 +76,67 @@ InvoiceItem = sequelize.define('invoice_items', {
   }
 });
 
-sequelize.sync()
-  .then(function() {
-    Customer.truncate();
-  })
-  .then(function() {
-    Product.truncate();
-  })
-  .then(function() {
-    Invoice.truncate();
-  })
-  .then(function() {
-    InvoiceItem.truncate();
-  })
-  .then(function() {
+// sequelize.sync()
+//   .then(function() {
+//     Customer.truncate();
+//   })
+//   .then(function() {
+//     Product.truncate();
+//   })
+//   .then(function() {
+//     Invoice.truncate();
+//   })
+//   .then(function() {
+//     InvoiceItem.truncate();
+//   })
+//   .then(function() {
 
-  Customer.create({
-    name: "Mark Benson",
-    address: "353 Rochester St, Rialto FL 43250",
-    phone: "555-534-2342"
-  });
+//   Customer.create({
+//     name: "Mark Benson",
+//     address: "353 Rochester St, Rialto FL 43250",
+//     phone: "555-534-2342"
+//   });
 
-  Customer.create({
-    name: "Bob Smith",
-    address: "215 Market St, Dansville CA 94325",
-    phone: "555-534-2342"
-  });
+//   Customer.create({
+//     name: "Bob Smith",
+//     address: "215 Market St, Dansville CA 94325",
+//     phone: "555-534-2342"
+//   });
 
-  Customer.create({
-    name: "John Draper",
-    address: "890 Main St, Fontana IL 31450",
-    phone: "555-534-2342"
-  });
+//   Customer.create({
+//     name: "John Draper",
+//     address: "890 Main St, Fontana IL 31450",
+//     phone: "555-534-2342"
+//   });
 
-  Product.create({
-    name: "Parachute Pants",
-    price: 29.99
-  });
+//   Product.create({
+//     name: "Parachute Pants",
+//     price: 29.99
+//   });
 
-  Product.create({
-    name: "Phone Holder",
-    price: 9.99
-  });
+//   Product.create({
+//     name: "Phone Holder",
+//     price: 9.99
+//   });
 
-  Product.create({
-    name: "Pet Rock",
-    price: 5.99
-  });
+//   Product.create({
+//     name: "Pet Rock",
+//     price: 5.99
+//   });
 
-  Product.create({
-    name: "Egg Timer",
-    price: 15.99
-  });
+//   Product.create({
+//     name: "Egg Timer",
+//     price: 15.99
+//   });
 
-  Product.create({
-    name: "Neon Green Hat",
-    price: 21.99
-  });
+//   Product.create({
+//     name: "Neon Green Hat",
+//     price: 21.99
+//   });
 
-}).catch(function(e) {
-  console.log("ERROR SYNCING WITH DB", e);
-});
+// }).catch(function(e) {
+//   console.log("ERROR SYNCING WITH DB", e);
+// });
 
 var app = module.exports = express();
 app.set('port', process.env.PORT || 8000);
@@ -153,6 +153,7 @@ app.route('/api/customers')
     })
   })
   .post(function(req, res) {
+    console.log(req.body)
     var customer = Customer.build(_.pick(req.body, ['name', 'address', 'phone']));
     customer.save().then(function(customer){
       res.json(customer);
@@ -164,7 +165,7 @@ app.route('/api/customers/:customer_id')
     Customer.findById(req.params.customer_id).then(function(customer) {
       res.json(customer);
     });
-  }) 
+  })
   .put(function(req, res) {
     Customer.findById(req.params.customer_id).then(function(customer) {
       customer.update(_.pick(req.body, ['name', 'address', 'phone'])).then(function(customer) {
@@ -200,7 +201,7 @@ app.route('/api/products/:product_id')
     Product.findById(req.params.product_id).then(function(product) {
       res.json(product);
     });
-  }) 
+  })
   .put(function(req, res) {
     Product.findById(req.params.product_id).then(function(product) {
       product.update(_.pick(req.body, ['name', 'price'])).then(function(product) {
@@ -237,7 +238,7 @@ app.route('/api/invoices/:invoice_id')
     Invoice.findById(req.params.invoice_id).then(function(invoice) {
       res.json(invoice);
     });
-  }) 
+  })
   .put(function(req, res) {
     Invoice.findById(req.params.invoice_id).then(function(invoice) {
       invoice.update(_.pick(req.body, ['customer_id', 'discount', 'total'])).then(function(invoice) {
@@ -275,7 +276,7 @@ app.route('/api/invoices/:invoice_id/items/:id')
     InvoiceItem.findById(req.params.id).then(function(invoice_item) {
       res.json(invoice_item);
     });
-  }) 
+  })
   .put(function(req, res) {
     InvoiceItem.findById(req.params.id).then(function(invoice_item) {
       invoice_item.update(_.pick(req.body, ['product_id', 'quantity'])).then(function(invoice_item) {

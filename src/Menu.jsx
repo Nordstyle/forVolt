@@ -12,6 +12,9 @@ export default () => (
         </Navbar.Brand>
       </Navbar.Header>
       <Nav>
+        <LinkContainer exact to="/">
+          <NavItem eventKey={2}>Invoices</NavItem>
+        </LinkContainer>
         <LinkContainer to="/customers">
           <NavItem eventKey={2}>Customers</NavItem>
         </LinkContainer>
